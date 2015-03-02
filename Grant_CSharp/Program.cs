@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 namespace Recursion_Solutions_CSharp {
-    class Program {
+    static class Program {
 
         static int factorial(int n) {
             return n == 0
@@ -31,9 +31,13 @@ namespace Recursion_Solutions_CSharp {
 
         static bool isEven(int num) { return num % 2 == 0; }
 
+        static string print(this LinkedList<int> list) {
+            return list.Aggregate( "", (acc, elem) => acc + "," + elem);
+        }
+
         static LinkedList<int> evens(LinkedList<int> list) {
             if( list.Count() == 0 )
-                return null;
+                return new LinkedList<int>();
             if (isEven(list.First.Value)) {
                 var head = list.First.Value;
                 list.RemoveFirst();
@@ -53,7 +57,7 @@ namespace Recursion_Solutions_CSharp {
             Console.WriteLine("Fibonacci 7: {0}", fibonacci(7));
             Console.WriteLine("Sum [1;2;3;4;5] = {0}", sum(new List<int> {1,2,3,4,5}));
             Console.WriteLine("Count 1 [1,2,1,3,4,1] = {0}", count(1, new List<int> { 1, 2, 1, 3, 4, 1 }));
-            //Console.WriteLine("Evens [1,2,3,4,5,6,7,8] = {0}", evens(new LinkedList<int>(new List<int> { 1, 2, 3, 4, 5, 6, 7, 8 })));
+            Console.WriteLine("Evens [1,2,3,4,5,6,7,8] = {0}", evens(new LinkedList<int>(new List<int> { 1, 2, 3, 4, 5, 6, 7, 8 })).print());
         }
     }
 }
