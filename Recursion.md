@@ -73,3 +73,24 @@ If you write the function in such a way that it does not need to be kept on the 
     val it : int = 2112532500
 
 The most common way to do this is to pass an accumulator to the function, so when the Base Case is reached it has everything it needs, and doesn't need to work back up the stack.
+
+Some languages which support Tail Call Optimisation:
+* F#
+* Scheme
+* Erlang
+* C# (when compiled for 64 bit)
+* Haskell (optionally)
+* Scala (for self-calls)
+* Some Ruby implementations
+
+Some languages which don't:
+* Python
+* C# (compiled for 32 bit)
+* Java
+* Clojure
+* Javascript
+* Most Ruby implementations
+
+(Note: For VM-based languaged that run on things like the JVM or CLR, the compiler can optimise some tail calls, but for full TCO it has ti be supported at the VM level.  The CLR supports this while the JVM does not).
+
+(Another Note: Some languages which don't support TCO use something called Trampolining instead, which does something crazy with lambdas.  See the Internet for details.)
