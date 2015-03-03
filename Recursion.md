@@ -49,6 +49,15 @@ The function is called multiple times:
 
 Two functions which call each other:
 
+    let rec even number =  
+      if number = 0 then true
+      else odd (number-1)
+    and odd number = 
+      if number = 0 then false
+      else even (number-1)
+
+(In F#, because of the single-pass compilation, you need to specify mutually recursive functions together with 'and'). 
+
 ## Tail Call Optimisation
 
 Each time the function is called recursively it uses up a frame on the stack.  There are a limited number of frames available (often around 64,000) and when they run out you get a Stack Overflow:
