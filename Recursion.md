@@ -49,7 +49,7 @@ The function is called multiple times:
 
 Two functions which call each other:
 
-## Tail Calls
+## Tail Call Optimisation
 
 Each time the function is called recursively it uses up a frame on the stack.  There are a limited number of frames available (often around 64,000) and when they run out you get a Stack Overflow:
 
@@ -63,4 +63,13 @@ Each time the function is called recursively it uses up a frame on the stack.  T
     > sum_recursive [1..65000];;
     Process is terminated due to StackOverflowException.
     
-    
+If you write the function in such a way that it does not need to be kept on the stack, by doing a Tail Call, some compilers recognise this and optimise the recursive call so only one stack frame is used:
+
+    let rec sum_tail list accumulator =
+      if (empty list) then accumulator
+      else sum_tail (tail list) (accumulator + list.[0])
+      
+    > sum_tail [1..65000] 0;;
+    val it : int = 2112532500
+
+The most common way to do this is to pass an accumulator to the function, so when the Base Case is reached it has everything it needs, and doesn't need to work back up the stack.
