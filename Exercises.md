@@ -45,6 +45,18 @@ The list [1, 2, 3, 4, 5, 6, 7, 8] when filtered should give [2, 4, 6, 8].
 
 Note: This is much easier in languages which have a recursive list structures.  In other languages, such as C#, it's a bit of a pain.  You could try using a Linked List. Or just move on to the next exercise..
 
+### 1.6 IsEven
+
+Write the pair of functions isEven and isOdd using Mutual Recursion.  The pseudocode for this is:
+
+    isEven(n)
+      if n is 0 then true
+      else isOdd(n - 1)
+
+    isOdd(n)
+      if n is 0 then false
+      else isEven(n - 1) 
+
 ## 2 Intermediate
 
 ### 2.1 Ackermann
