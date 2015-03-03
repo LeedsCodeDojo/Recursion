@@ -42,3 +42,37 @@ The sum of [1, 2, 3, 4, 5] is 15.
 Filter a list of numbers to return only the even ones.
 
 The list [1, 2, 3, 4, 5, 6, 7, 8] when filtered should give [2, 4, 6, 8].
+
+Note: This is much easier in languages which have a recursive list structures.  In other languages, such as C#, it's a bit of a pain.  You could try using a Linked List. Or just move on to the next exercise..
+
+## Intermediate
+
+### 1. Ackermann
+
+Write the Ackermann function, defined for today's purposes as:
+
+![ack](http://upload.wikimedia.org/math/0/a/e/0ae4053de098cc9554752b190a38bc56.png)
+
+When called with the numbers 3 and 10, it should return 8189.  Enter much higher numbers and you could be waiting a while.  (On a related note, depending on how you've written it, calling it with 3 and 12 might tell you if your language/compiler supports Tail Call Optimisation).
+
+### 2. Directory Search
+
+Write a function which searches all files and folders of a provided path for a file with a particular name.
+
+If your language makes this difficult, move onto the next exercise, which is similar.  And stop using Haskell.
+
+### 3. Tree Search
+
+Write a function which searches a tree-like data structure for a given item.
+
+If your language supports a recursive list structure, this will do, as the head and tail can be considered the two branches of the tree, e.g. Scheme:
+
+    (treesearch 9 '(((9)) 2 (3) (4 5 (6 (7)) 8)))
+
+Alternatively you could write yourself some kind of tree structure and use that:
+
+    type Tree =
+    | Branch of string * Tree list
+    | Leaf of string
+
+If that all seems like too much work in your language, just move along.  And learn yourself a decent language!
