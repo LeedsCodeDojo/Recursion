@@ -1,6 +1,8 @@
 Recursion
 =========
 
+Some details about recursive functions.  Examples mainly in F#.
+
 ## Definition
 
 Recursion is "The repeated application of a recursive procedure or definition".  In simple, practical terms it's a function which calls itself:
@@ -121,6 +123,29 @@ One fairly advanced programming technique involves passing one or more functions
     sum_continuations [1..5] (fun sum ->
       printfn "Answer: %i" sum)
 
-There is in fact an entire style of programming called 'Continuation Passing Style' (CPS) in which everything is written in this way, which was clearly thought up by a sadist.
+There is in fact an entire style of programming called 'Continuation Passing Style' (CPS) in which everything is written in this way, which was surely thought up by a sadist.
 
 This is important in relation to recursion because sometimes a recursive call cannot be made Tail Recursve using the normal mechanism, such as Multiple Recursive calls.  In these cases, continuations can be used to make the functional Tail Recursive.  But it can get rather complicated.
+
+This continuation-based Scheme function finds the maximum depth of a tree:
+
+    (define maxdepth*&co
+      (lambda (l col)
+        (cond
+          ((null? l) (col 1))
+          ((atom? (car l)) 
+            (maxdepth*&co (cdr l)
+                          (lambda (n) (col n))))
+          (else 
+            (maxdepth*&co (car l)
+                          (lambda (ncar) 
+                            (maxdepth*&co (cdr l) 
+                                          (lambda (ncdr) 
+                                            (col 
+                                              (cond
+                                                ((> (add1 ncar) ncdr) (add1 ncar))
+                                                (else ncdr)))))))))))
+
+Those brave enough to give it a read might notice that the second time 'maxdepth*&co' is called, it's passed a lambda which gets the result from one branch of the tree, which in turn calls the function again passing a second lambda which gets the results from the other branch.
+
+The rest of you will just have to take my word for it. ;-)
