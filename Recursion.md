@@ -146,6 +146,6 @@ This continuation-based Scheme function finds the maximum depth of a tree, which
                                                 ((> (add1 ncar) ncdr) (add1 ncar))
                                                 (else ncdr)))))))))))
 
-Those brave enough to give it a read might notice that the second time 'maxdepth*&co' is called, it's passed a lambda which gets the result from one branch of the tree, which in turn calls the function *again*, passing a *second* lambda which gets the results from the other branch.
+Those brave enough to give it a read might notice that the second time 'maxdepth&co' is called, it's passed a lambda which gets the result from one branch of the tree, which in turn calls the function *again*, passing a *second* lambda which gets the results from the other branch.
 
 The rest of you will just have to take my word for it. ;-)
