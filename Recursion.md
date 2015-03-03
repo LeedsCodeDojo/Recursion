@@ -105,9 +105,9 @@ Some languages which don't:
 * Javascript
 * Most Ruby implementations
 
-(Note: For VM-based languaged that run on things like the JVM or CLR, the compiler can optimise some tail calls, but for full TCO it has ti be supported at the VM level.  The CLR supports this while the JVM does not).
+(Note: For VM-based languaged that run on things like the JVM or CLR, the compiler can optimise some tail calls, but for full TCO it has to be supported at the VM level.  The CLR supports this while the JVM does not).
 
-(Another Note: Some languages which don't support TCO use something called Trampolining instead, which does something crazy with lambdas.  See the Internet for details.)
+(Another Note: Some languages which don't support TCO use something called Trampolining instead, which does something crazy with lambdas.  See The Internet for details.)
 
 ## Continuations
 
@@ -125,9 +125,9 @@ One fairly advanced programming technique involves passing one or more functions
 
 There is in fact an entire style of programming called 'Continuation Passing Style' (CPS) in which everything is written in this way, which was surely thought up by a sadist.
 
-This is important in relation to recursion because sometimes a recursive call cannot be made Tail Recursve using the normal mechanism, such as Multiple Recursive calls.  In these cases, continuations can be used to make the functional Tail Recursive.  But it can get rather complicated.
+This is important in relation to recursion because sometimes a recursive call cannot be made Tail Recursve using the normal mechanism, such as Multiple Recursive calls.  In these cases, continuations can be used to make the function Tail Recursive.  It can get rather complicated.
 
-This continuation-based Scheme function finds the maximum depth of a tree:
+This continuation-based Scheme function finds the maximum depth of a tree, which can't be optimised in the normal way as the function has to be called recursively on each branch of the tree:
 
     (define maxdepth*&co
       (lambda (l col)
@@ -146,6 +146,6 @@ This continuation-based Scheme function finds the maximum depth of a tree:
                                                 ((> (add1 ncar) ncdr) (add1 ncar))
                                                 (else ncdr)))))))))))
 
-Those brave enough to give it a read might notice that the second time 'maxdepth*&co' is called, it's passed a lambda which gets the result from one branch of the tree, which in turn calls the function again passing a second lambda which gets the results from the other branch.
+Those brave enough to give it a read might notice that the second time 'maxdepth*&co' is called, it's passed a lambda which gets the result from one branch of the tree, which in turn calls the function *again*, passing a *second* lambda which gets the results from the other branch.
 
 The rest of you will just have to take my word for it. ;-)
