@@ -43,7 +43,10 @@ The function is called once:
 
 The function is called multiple times:
 
-
+    let rec lucas n =
+      if n = 0 then 2
+      elif n = 1 then 1
+      else lucas (n-1) + lucas (n-2)
 
 ### Mutual Recursion
 
