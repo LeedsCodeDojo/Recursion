@@ -94,3 +94,21 @@ Some languages which don't:
 (Note: For VM-based languaged that run on things like the JVM or CLR, the compiler can optimise some tail calls, but for full TCO it has ti be supported at the VM level.  The CLR supports this while the JVM does not).
 
 (Another Note: Some languages which don't support TCO use something called Trampolining instead, which does something crazy with lambdas.  See the Internet for details.)
+
+## Continuations
+
+One fairly advanced programming technique involves passing one or more functions to the function doing the work so that instead of returning a value, the function calls one of the passed functions with the result:
+
+    let rec sum_continuation list collector =
+      if (empty list) then collector 0
+      else 
+        sum_continuation 
+          (tail list) 
+          (fun sum -> collector (sum + list.[0]))
+    
+    sum_continuations [1..5] (fun sum ->
+      printfn "Answer: %i" sum)
+
+There is in fact an entire style of programming called 'Continuation Passing Style' (CPS) in which everything is written in this way, which was clearly thought up by a sadist.
+
+This is important in relation to recursion because sometimes a recursive call cannot be made Tail Recursve using the normal mechanism, such as Multiple Recursive calls.  In these cases, continuations can be used to make the functional Tail Recursive.  But it can get rather complicated.
