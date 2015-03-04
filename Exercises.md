@@ -45,7 +45,7 @@ Filter a list of numbers to return only the even ones.
 
 The list [1, 2, 3, 4, 5, 6, 7, 8] when filtered should give [2, 4, 6, 8].
 
-Note: This is much easier in languages which have a recursive list structures.  In other languages, such as C#, it's a bit of a pain.  You could try using a Linked List. Or just move on to the next exercise..
+Note: This is much easier in languages which have a recursive list structures.  In other languages, such as C#, it's a bit of a pain.  You could try using a Linked List - see Appendix A for an example. Or just move on to the next exercise..
 
 ### 1.6 IsEven
 
@@ -98,14 +98,16 @@ If that all seems like too much work in your language, just move along.  And lea
 Try counting the items in a list again, using your previous solution (if you wrote one), but in a list containing 100,000 items.
 
 A couple of things might happen:
-1. It will be extremely slow.  This is especially likely if you're using something like C# which doesn't have a recursive data type.  In that situation, try writing it with a LinkedList instead.  (This should make getting at the 'first' element and the 'remaining' elements much quicker, which you generally want to do with recursion).
+1. It will be extremely slow.  This is especially likely if you're using something like C# which doesn't have a recursive data type.  In that situation, try writing it with a LinkedList, which should make getting at the 'first' element and the 'remaining' elements much quicker - see Appendix A for details.
 2. You might get a Stack Overflow.  (Some languages, in particula dynamic ones, don't seem to have this problem regardless).
 
 Write the function again, this time with a tail call (e.g. using an accumulator to hold the count).  Assuming your language supports TCO, you should be able to count on the list with 100,000 items.
 
 ### 2.5 Tail Call Filter
 
-Filter another list of numbers to get the evens, this time with a tail call.  Again, try it with a list of around 100,000 items.
+Try filtering a list with 100,000 items.  Again, this might be slow and you might get a Stack Overflow.
+
+Write a function to filter the list of numbers to get the evens, this time with a tail call.
 
 ### 2.6 Continuations List Count
 
