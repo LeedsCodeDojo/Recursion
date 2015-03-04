@@ -121,6 +121,10 @@ Implement either the 'Directory search' or 'Tree Seach' again, this time with co
 
 Ackermann, with continuations.  Try calling it with 3 and 12 to see if it's worked.
 
-### 3.1 Towers of Hannoi
+### 3.4 Towers of Hannoi
 
-Go and solve [this Towers of Hannoi puzzle](https://www.learneroo.com/modules/71/nodes/402) using recursion.
+Go and solve the [Towers of Hannoi puzzle](https://www.learneroo.com/modules/71/nodes/402) using recursion.
+
+### 3.5 Permutations
+
+Output all permutations of a passed string (or list of characters).
