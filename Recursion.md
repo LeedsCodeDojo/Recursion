@@ -33,7 +33,7 @@ Where the recursion happens.  The function should be called with parameter(s) wh
 
 ## Examples in Other Languages
 
-### C#
+### C# (using if)
 
     static int factorial(int n) {
         if( n == 0 )
