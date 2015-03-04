@@ -95,7 +95,11 @@ If that all seems like too much work in your language, just move along.  And lea
 
 ### 2.4 Tail Call List Count
 
-Try counting the items in a list again, using your previous solution (if you wrote one), but in a list containing 100,000 items.  Depending on how you wrote it and what language you're using, you might get a Stack Overflow.  (Some languages, in particula dynamic ones, don't seem to have this problem regardless).
+Try counting the items in a list again, using your previous solution (if you wrote one), but in a list containing 100,000 items.
+
+A couple of things might happen:
+1. It will be extremely slow.  This is especially likely if you're using something like C# which doesn't have a recursive data type.  In that situation, try writing it with a LinkedList instead.  (This should make getting at the 'first' element and the 'remaining' elements much quicker, which you generally want to do with recursion).
+2. You might get a Stack Overflow.  (Some languages, in particula dynamic ones, don't seem to have this problem regardless).
 
 Write the function again, this time with a tail call (e.g. using an accumulator to hold the count).  Assuming your language supports TCO, you should be able to count on the list with 100,000 items.
 
