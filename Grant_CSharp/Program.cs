@@ -6,6 +6,43 @@ using System.Linq;
 namespace Recursion_Solutions_CSharp {
     static class Program {
 
+        // LinkedList helpers
+
+        // Head gets the first item
+        static int Head(LinkedList<int> list) {
+            return list.First.Value;
+        }
+
+        // Tail gets the whole list excliding the first item
+        static LinkedList<int> Tail(LinkedList<int> list) {
+            list.RemoveFirst();
+            return list;
+        }
+
+        // Attaches the item onto the beginning of the list
+        static LinkedList<int> Cons(int head, LinkedList<int> tail) {
+            tail.AddFirst(head);
+            return tail;
+        }
+
+        // Creates a LinkedList from a range of integers, one element per number
+        static LinkedList<int> LinkedListRange(int from, int to) {
+            return new LinkedList<int>(Enumerable.Range(from, to));
+        }
+
+        // Prints each item of a linked list
+        static string print(this LinkedList<int> list) {
+            return list.Aggregate("", (output, item) => output + "," + item).Substring(1);
+        }
+
+        // Example - recursively builds up a list by doubling everything in the passed list
+        static LinkedList<int> double_everything(LinkedList<int> list) {
+            if (list.Count() == 0)
+                return new LinkedList<int>();
+            else
+                return Cons(Head(list)*2, double_everything(Tail(list)));
+        }
+
         /***************************
          ********** Basic **********
          ***************************/
@@ -35,42 +72,22 @@ namespace Recursion_Solutions_CSharp {
                 : list.ElementAt(0) + sum(list.Skip(1));
         }
 
-        //static int count(int item, IEnumerable<int> list) {
-        //    return list.Count() == 0
-        //        ? 0
-        //        : (list.ElementAt(0) == item ? 1 : 0) + count(item, list.Skip(1));
-        //}
-
-        static int count(int item, LinkedList<int> list) {
-            if (list.Count() == 0)
-                return 0;
-            else {
-                var head = list.First();
-                list.RemoveFirst();
-                return (head == item ? 1 : 0) + count(item, list);
-            }
+        // this is really slow for longer lists
+        static int count(int item, IEnumerable<int> list) {
+            return list.Count() == 0
+                ? 0
+                : (list.ElementAt(0) == item ? 1 : 0) + count(item, list.Skip(1));
         }
 
         static bool even(int num) { return num % 2 == 0; }
 
-        static string print(this LinkedList<int> list) {
-            return list.Aggregate( "", (acc, elem) => acc + "," + elem);
-        }
-
         static LinkedList<int> evens(LinkedList<int> list) {
-            if( list.Count() == 0 )
+            if (list.Count() == 0)
                 return new LinkedList<int>();
-            if (even(list.First.Value)) {
-                var head = list.First.Value;
-                list.RemoveFirst();
-                var rest = evens(list);
-                rest.AddFirst(head);
-                return rest;
-            }
-            else {
-                list.RemoveFirst();
-                return evens(list);
-            }
+            else if (even(Head(list)))
+                return Cons(Head(list), Tail(list));
+            else 
+                return evens(Tail(list));
         }
 
         static bool isEven(int n) {
@@ -109,11 +126,17 @@ namespace Recursion_Solutions_CSharp {
                 .Any( directory => treesearch(filename, directory.FullName ));
         }
 
-        static int count_tail(int item, List<int> list, int count) {
-            //Console.WriteLine(list.Count());
+        static int count_quick(int item, LinkedList<int> list) {
             return list.Count() == 0
-                ? count
-                : count_tail(item, list.Skip(1).ToList(), count + (list.ElementAt(0) == item ? 1 : 0));
+                ? 0
+                : (list.First() == item ? 1 : 0) + count_quick(item, Tail(list));
+        }
+
+        static int count_tail(int item, LinkedList<int> list, int count) {
+            if( list.Count() == 0 )
+                return count;
+            else
+                return count_tail(item, Tail(list), count + (Head(list) == item ? 1 : 0));
         }
 
         static void Main(string[] args) {
@@ -122,14 +145,15 @@ namespace Recursion_Solutions_CSharp {
             Console.WriteLine("Factorial 5: {0}", factorial(5));
             Console.WriteLine("Fibonacci 7: {0}", fibonacci(7));
             Console.WriteLine("Sum [1;2;3;4;5] = {0}", sum(new List<int> {1,2,3,4,5}));
-            //Console.WriteLine("Count 1 [1,2,1,3,4,1] = {0}", count(1, new List<int> { 1, 2, 1, 3, 4, 1 }));
-            Console.WriteLine("Evens [1,2,3,4,5,6,7,8] = {0}", evens(new LinkedList<int>(new List<int> { 1, 2, 3, 4, 5, 6, 7, 8 })).print());
+            Console.WriteLine("Count 1 [1,2,1,3,4,1] = {0}", count(1, new List<int> { 1, 2, 1, 3, 4, 1 }));
+            Console.WriteLine("Evens [1,2,3,4,5,6,7,8] = {0}", evens(LinkedListRange(1,9)).print());
             Console.WriteLine("99 even? {0} 78 even? {1} 21 odd? {2}", isEven(99), isEven(78), isOdd(21));
 
             Console.WriteLine("\nIntermediate\n");
             Console.WriteLine("Ackermann 3 10: {0}", ackermann(3,10));
             Console.WriteLine("treesearch c:temp {0}", treesearch("thefile.txt", @"c:\temp"));
-            Console.WriteLine("Count 99 [1..100000] = {0}", count(99, new LinkedList<int>(Enumerable.Range(1,100000))));
+            Console.WriteLine("Count (quick) 99 [1..10000] = {0}", count_quick(99, LinkedListRange(0,10000)));
+            Console.WriteLine("Count (tail) 99 [1..100000] = {0}", count_tail(99, LinkedListRange(0, 100000), 0));
         }
     }
 }
