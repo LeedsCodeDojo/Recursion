@@ -35,10 +35,20 @@ namespace Recursion_Solutions_CSharp {
                 : list.ElementAt(0) + sum(list.Skip(1));
         }
 
-        static int count(int item, IEnumerable<int> list) {
-            return list.Count() == 0
-                ? 0
-                : (list.ElementAt(0) == item ? 0 : 1) + count(item, list.Skip(1));
+        //static int count(int item, IEnumerable<int> list) {
+        //    return list.Count() == 0
+        //        ? 0
+        //        : (list.ElementAt(0) == item ? 1 : 0) + count(item, list.Skip(1));
+        //}
+
+        static int count(int item, LinkedList<int> list) {
+            if (list.Count() == 0)
+                return 0;
+            else {
+                var head = list.First();
+                list.RemoveFirst();
+                return (head == item ? 1 : 0) + count(item, list);
+            }
         }
 
         static bool even(int num) { return num % 2 == 0; }
@@ -99,10 +109,11 @@ namespace Recursion_Solutions_CSharp {
                 .Any( directory => treesearch(filename, directory.FullName ));
         }
 
-        static int count_tail(int item, IEnumerable<int> list, int count) {
+        static int count_tail(int item, List<int> list, int count) {
+            //Console.WriteLine(list.Count());
             return list.Count() == 0
                 ? count
-                : count_tail(item, list.Skip(1), count + (list.ElementAt(0) == item ? 0 : 1));
+                : count_tail(item, list.Skip(1).ToList(), count + (list.ElementAt(0) == item ? 1 : 0));
         }
 
         static void Main(string[] args) {
@@ -111,14 +122,14 @@ namespace Recursion_Solutions_CSharp {
             Console.WriteLine("Factorial 5: {0}", factorial(5));
             Console.WriteLine("Fibonacci 7: {0}", fibonacci(7));
             Console.WriteLine("Sum [1;2;3;4;5] = {0}", sum(new List<int> {1,2,3,4,5}));
-            Console.WriteLine("Count 1 [1,2,1,3,4,1] = {0}", count(1, new List<int> { 1, 2, 1, 3, 4, 1 }));
+            //Console.WriteLine("Count 1 [1,2,1,3,4,1] = {0}", count(1, new List<int> { 1, 2, 1, 3, 4, 1 }));
             Console.WriteLine("Evens [1,2,3,4,5,6,7,8] = {0}", evens(new LinkedList<int>(new List<int> { 1, 2, 3, 4, 5, 6, 7, 8 })).print());
             Console.WriteLine("99 even? {0} 78 even? {1} 21 odd? {2}", isEven(99), isEven(78), isOdd(21));
 
             Console.WriteLine("\nIntermediate\n");
             Console.WriteLine("Ackermann 3 10: {0}", ackermann(3,10));
             Console.WriteLine("treesearch c:temp {0}", treesearch("thefile.txt", @"c:\temp"));
-            Console.WriteLine("Count 99 [1..100000] = {0}", count(99, Enumerable.Range(1,100000)));
+            Console.WriteLine("Count 99 [1..100000] = {0}", count(99, new LinkedList<int>(Enumerable.Range(1,100000))));
         }
     }
 }
