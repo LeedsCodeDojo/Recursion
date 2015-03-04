@@ -88,6 +88,8 @@ Alternatively you could write yourself some kind of tree structure and use that:
     type Tree =
     | Branch of string * Tree list
     | Leaf of string
+    
+    let tree = Branch ("a", [Branch ("b", [Leaf "c"; Leaf "d"]); Branch ("e", [Leaf "f"; Leaf "g"])])
 
 If that all seems like too much work in your language, just move along.  And learn yourself a decent language!
 
