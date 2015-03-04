@@ -180,7 +180,7 @@ To save you a bit of time, here's a function which works through a list of integ
         if (list.Count() == 0)
             return new LinkedList<int>();
         else
-            return Cons(Head(list)*2, Tail(list));
+            return Cons(Head(list)*2, double_everything(Tail(list)));
     }
 
     Console.WriteLine(double_everything(LinkedListRange(1, 10)).print());
