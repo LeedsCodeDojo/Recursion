@@ -95,7 +95,9 @@ If that all seems like too much work in your language, just move along.  And lea
 
 ### 2.4 Tail Call List Count
 
-Count the items in a list again, this time with a tail call.  Assuming your language supports TCO, you should be able to count a list with 100,000 items.
+Try counting the items in a list again, using your previous solution (if you wrote one), but in a list containing 100,000 items.  Depending on how you wrote it and what language you're using, you might get a Stack Overflow.  (Some languages, in particula dynamic ones, don't seem to have this problem regardless).
+
+Write the function again, this time with a tail call (e.g. using an accumulator to hold the count).  Assuming your language supports TCO, you should be able to count on the list with 100,000 items.
 
 ### 2.5 Tail Call Filter
 
