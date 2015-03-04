@@ -13,16 +13,18 @@ namespace Recursion_Solutions_CSharp {
             return list.First.Value;
         }
 
-        // Tail gets the whole list excliding the first item
+        // Tail gets the whole list excliding the first item.  It is slow.
         static LinkedList<int> Tail(LinkedList<int> list) {
-            list.RemoveFirst();
-            return list;
+            var copy = new LinkedList<int>(list.ToList());
+            copy.RemoveFirst();
+            return copy;
         }
 
         // Attaches the item onto the beginning of the list
         static LinkedList<int> Cons(int head, LinkedList<int> tail) {
             tail.AddFirst(head);
             return tail;
+
         }
 
         // Creates a LinkedList from a range of integers, one element per number
@@ -32,7 +34,7 @@ namespace Recursion_Solutions_CSharp {
 
         // Prints each item of a linked list
         static string print(this LinkedList<int> list) {
-            return list.Aggregate("", (output, item) => output + "," + item).Substring(1);
+            return list.Aggregate("", (output, item) => output + "," + item);
         }
 
         // Example - recursively builds up a list by doubling everything in the passed list
@@ -132,11 +134,29 @@ namespace Recursion_Solutions_CSharp {
                 : (list.First() == item ? 1 : 0) + count_quick(item, Tail(list));
         }
 
+        // This is not tail optimised for some reason.
         static int count_tail(int item, LinkedList<int> list, int count) {
             if( list.Count() == 0 )
                 return count;
             else
                 return count_tail(item, Tail(list), count + (Head(list) == item ? 1 : 0));
+        }
+
+        static LinkedList<int> evens_tail(LinkedList<int> list, LinkedList<int> accumulator) {
+            if (list.Count() <= 0)
+                return accumulator;
+            else if (even(Head(list)))
+                return evens_tail(Tail(list), Cons(Head(list), accumulator));
+            else
+                return evens_tail(Tail(list), accumulator);
+        }
+
+        static void count_continuation(int item, LinkedList<int> list, Action<int> continuation) {
+            if (list.Count() == 0)
+                continuation.Invoke(0);
+            else
+                count_continuation(item, Tail(list), (result =>
+                    continuation.Invoke(result + (Head(list) == item ? 1 : 0))));
         }
 
         static void Main(string[] args) {
@@ -152,8 +172,10 @@ namespace Recursion_Solutions_CSharp {
             Console.WriteLine("\nIntermediate\n");
             Console.WriteLine("Ackermann 3 10: {0}", ackermann(3,10));
             Console.WriteLine("treesearch c:temp {0}", treesearch("thefile.txt", @"c:\temp"));
-            Console.WriteLine("Count (quick) 99 [1..10000] = {0}", count_quick(99, LinkedListRange(0,10000)));
-            Console.WriteLine("Count (tail) 99 [1..100000] = {0}", count_tail(99, LinkedListRange(0, 100000), 0));
+            Console.WriteLine("Count (quick) 99 [1..10] = {0}", count_quick(99, LinkedListRange(0,10)));
+            Console.WriteLine("Count (tail) 99 [1..10] = {0}", count_tail(99, LinkedListRange(0, 10), 0)); // no TCO
+            Console.WriteLine("Evens (tail) [1..10] = {0}", evens_tail(LinkedListRange(0, 10), new LinkedList<int>()).print());
+            count_continuation(4, LinkedListRange(0, 10), (result => Console.WriteLine("Count (continuation) 4 [1..10] = {0}", result)));
         }
     }
 }

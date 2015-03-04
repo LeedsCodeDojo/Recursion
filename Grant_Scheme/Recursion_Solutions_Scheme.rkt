@@ -126,3 +126,11 @@
 '(count-tail 99 (0-100000))
 (count-tail 99 (range-to 100000) 0)
 
+(define (evens-tail list acc)
+  (cond 
+    ((null? list) acc)
+    ((even? (head list)) (evens-tail (tail list) (cons (head list) acc)))
+    (else (evens-tail (tail list) acc))))
+
+'(evens-tail 1 2 3 4 5 6 7 8)
+(evens-tail '(1 2 3 4 5 6 7 8) '())
