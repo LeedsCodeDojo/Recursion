@@ -22,6 +22,18 @@ let sum_loop list =
         total <- total + number
     total
 
+let rec lucas n =
+    if n = 0 then 2
+    elif n = 1 then 1
+    else lucas (n-1) + lucas (n-2)
+
+let rec even number =  
+    if number = 0 then true
+    else odd (number-1)
+and odd number = 
+    if number = 0 then false
+    else even (number-1)
+
 let rec sum_recursive list =
     if (empty list) then 0
     else list.[0] + sum_recursive (tail list)
