@@ -65,7 +65,7 @@ Write the Ackermann function, defined for today's purposes as:
 
 ![ack](http://upload.wikimedia.org/math/0/a/e/0ae4053de098cc9554752b190a38bc56.png)
 
-When called with the numbers 3 and 10, it should return 8189.  Enter much higher numbers and you could be waiting a while.  (On a related note, depending on how you've written it, calling it with 3 and 12 might tell you if your language/compiler supports Tail Call Optimisation).
+When called with the numbers 3 and 10, it should return 8189.  Enter much higher numbers and you could be waiting a while.
 
 ### 2.2 Directory Search
 
@@ -93,9 +93,34 @@ If that all seems like too much work in your language, just move along.  And lea
 
 Count the items in a list again, this time with a tail call.  Assuming your language supports TCO, you should be able to count a list with 100,000 items.
 
+### 2.5 Tail Call Filter
+
+Filter another list of numbers to get the evens, this time with a tail call.  Again, try it with a list of around 100,000 items.
+
+### 2.6 Continuations List Count
+
+Count the items in a list again, this time using continuations.
+
+### 2.7 Continuations Filter
+
+Filter a list of numbers again to get the evens, with a continuation.
+
 ## 3 Advanced
+
+### 3.1 Continuations Fibonacci
+
+Do Fibonacci again, this time with continuations to avoid a Stack Overflow.
+
+(Note: The 'standard' recursive solution is so slow you probably won't want to wait to find out if it's worked..)
+
+### 3.2 Continuations Tree Search
+
+Implement either the 'Directory search' or 'Tree Seach' again, this time with continuations so large structures can be searched.  Try creating a large structure to test it with.
+
+### 3.3 Continuations Ackermann
+
+Ackermann, with continuations.  Try calling it with 3 and 12 to see if it's worked.
 
 ### 3.1 Towers of Hannoi
 
 Go and solve [this Towers of Hannoi puzzle](https://www.learneroo.com/modules/71/nodes/402) using recursion.
-
