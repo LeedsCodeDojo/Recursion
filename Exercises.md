@@ -3,6 +3,8 @@ Recursion Exercises
 
 Write recursive functions to do all of the following.  For extra bonus points, do it without mutable variables.
 
+Work on whichever problems you like.  They generally get harder, and with less of an explanation, as they go.
+
 ## 1 Basic
 
 ### 1.1 Factorial
