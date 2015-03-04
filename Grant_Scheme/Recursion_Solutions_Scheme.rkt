@@ -63,6 +63,22 @@
 '(evens 1 2 3 4 5 6 7 8)
 (evens '(1 2 3 4 5 6 7 8))
 
+(define (isEven? n)
+  (cond 
+    ((eq? n 0) #t)
+    (else (isOdd? (- n 1)))))
+
+(define (isOdd? n)
+  (cond 
+    ((eq? n 0) #f)
+    (else (isEven? (- n 1)))))
+
+'(odd/even)
+(even? 99)
+;(even? 888)
+;(odd? 99)
+;(odd? 888)
+
 ;************************
 ;***** Intermediate *****
 ;************************
@@ -89,5 +105,24 @@
 
 '(treesearch)
 (treesearch 9 '(1 2 (3) (4 5 (6 (7)) 8 ((9)))))
-(treesearch 9 '(((9)) 2 (3) (4 5 (6 (7)) 8)))
-(treesearch 9 '(1 2 (3) (4 5 (6 (7)) 8 (()))))
+;(treesearch 9 '(((9)) 2 (3) (4 5 (6 (7)) 8)))
+;(treesearch 9 '(1 2 (3) (4 5 (6 (7)) 8 (()))))
+
+(define (range-to n)
+  (cond
+    ((= n 0) '())
+    (else (cons n (range-to (- n 1))))))
+
+; scheme seems to have no trouble with stack overflows even
+; when not doing tail calls, probably due to its dynamic nature
+(define (count-tail item list acc)
+  (cond 
+    ((null? list) acc)
+    (else (count-tail item 
+                      (tail list)
+                      (+ acc
+                         (if (= (head list) item) 1 0))))))
+
+'(count-tail 99 (0-100000))
+(count-tail 99 (range-to 100000) 0)
+

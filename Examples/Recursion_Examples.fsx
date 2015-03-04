@@ -6,9 +6,13 @@ let tail = List.tail
 
 open Checked
 
-let rec factorial n =
-    if n = 0 then 1
-    else n * factorial (n-1)
+//let rec factorial n =
+//    if n = 0 then 1
+//    else n * factorial (n-1)
+
+let rec factorial = function
+    | 0 -> 1
+    | n -> n * factorial (n-1)
 
 let factorial_iter n =
     let mutable total = 1
