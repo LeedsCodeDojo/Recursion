@@ -138,3 +138,47 @@ Go and solve the [Towers of Hannoi puzzle](https://www.learneroo.com/modules/71/
 ### 3.5 Permutations
 
 Output all permutations of a passed string (or list of characters).
+
+### Appendix A - Tips for working with lists in C# and similar languages.
+
+If your language doesn't have a recursive list structure, doing recursion with collections can be a pain.  The best way I've found to do it so far is to use a LinkedList.  This is a PITA to work with, but at least lets you het the 'head' and 'tail' of the list pretty quickly.
+
+To save you a bit of time, here's a function which works through a list of integers and doubles every item, including a couple of helper functions to make working with LinkedLists easier:
+
+
+    // Head gets the first item
+    static int Head(LinkedList<int> list) {
+        return list.First.Value;
+    }
+
+    // Tail gets the whole list excliding the first item
+    static LinkedList<int> Tail(LinkedList<int> list) {
+        list.RemoveFirst();
+        return list;
+    }
+
+    // Attaches the item onto the beginning of the list
+    static LinkedList<int> Cons(int head, LinkedList<int> tail) {
+        tail.AddFirst(head);
+        return tail;
+    }
+
+    // Creates a LinkedList from a range of integers, one element per number
+    static LinkedList<int> LinkedListRange(int from, int to) {
+        return new LinkedList<int>(Enumerable.Range(from, to));
+    }
+
+    // Prints each item of a linked list
+    static string print(this LinkedList<int> list) {
+        return list.Aggregate("", (output, item) => output + "," + item).Substring(1);
+    }
+
+    // Recursively builds up a list by doubling everything in the passed list
+    static LinkedList<int> double_everything(LinkedList<int> list) {
+        if (list.Count() == 0)
+            return new LinkedList<int>();
+        else
+            return Cons(Head(list)*2, Tail(list));
+    }
+
+    Console.WriteLine(double_everything(LinkedListRange(1, 10)).print());
