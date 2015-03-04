@@ -35,7 +35,7 @@ The sum of [1, 2, 3, 4, 5] is 15.
 
 ### 1.4 Count the items in a list
 
-'nuff said!
+There are 5 items in the list [1, 2, 3, 4, 5].
 
 ### 1.5 Filter a list
 
