@@ -31,6 +31,38 @@ Recursive Case:
 
 Where the recursion happens.  The function should be called with parameter(s) which move it towards the Base Case.
 
+## Examples in Other Languages
+
+### C#
+
+    static int factorial(int n) {
+        if( n == 0 )
+            return 1;
+        else
+            return n * factorial(n - 1);
+    }
+        
+### C# (using conditional operator)
+
+    static int factorial(int n) {
+        return n == 0
+            ? 1
+            : n * factorial(n - 1);
+    }
+    
+### F# (using pattern matching)
+
+    let rec factorial = function
+      | 0 -> 1
+      | n -> n * factorial (n-1)
+      
+### Scheme
+
+    (define (factorial n)
+      (cond 
+        ((eq? n 0) 1)
+        (else (* n (factorial (- n 1))))))
+
 ## Types of Recursion
 
 ### Single recursion
