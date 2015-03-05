@@ -183,3 +183,9 @@ FakesAssemblies/
 
 # Erlang compiled files
 *.beam
+
+# Elixir project builds
+_build/
+erl_crash.dump
+*.ez
+
