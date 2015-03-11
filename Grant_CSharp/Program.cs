@@ -94,32 +94,28 @@ namespace Recursion_Solutions_CSharp {
         }
 
         static int[] evens_array(int[] list) {
-             //Console.WriteLine(list.Length);
-            try {
-                if (list.Length == 0)
-                    return new int[0];
-                else if (even(list[0])) {
 
-                    var tail = new int[list.Length - 1];
-                    Array.Copy(list, 1, tail, 0, tail.Length);
+            if (list.Length == 0)
+                return new int[0];
+            else if (even(list[0])) {
 
-                    var newList = new int[list.Length];
-                    var evensTail = evens_array(tail);
-                    Array.Copy(evensTail, 0, newList, 1, newList.Length);
+                var tail = new int[list.Length - 1];
+                Array.Copy(list, 1, tail, 0, tail.Length);
 
-                    newList[0] = list[0];
-                    return newList;
-                }
-                else {
-                    var tail = new int[list.Length - 1];
-                    Array.Copy(list, 1, tail, 0, tail.Length);
+                var evensTail = evens_array(tail);
 
-                    return evens_array(tail);
-                }
+                var newList = new int[evensTail.Length+1];
+
+                Array.Copy(evensTail, 0, newList, 1, evensTail.Length);
+
+                newList[0] = list[0];
+                return newList;
             }
-            catch (Exception ex) {
-                Console.WriteLine(ex);
-                throw;
+            else {
+                var tail = new int[list.Length - 1];
+                Array.Copy(list, 1, tail, 0, tail.Length);
+
+                return evens_array(tail);
             }
         }
 
@@ -208,7 +204,7 @@ namespace Recursion_Solutions_CSharp {
             //Console.WriteLine("Evens (tail) [1..10] = {0}", evens_tail(LinkedListRange(0, 10), new LinkedList<int>()).print());
             //count_continuation(4, LinkedListRange(0, 10), (result => Console.WriteLine("Count (continuation) 4 [1..10] = {0}", result)));
 
-            int cycles = 4000;
+            int cycles = 5000;
 
             var timer = Stopwatch.StartNew();
             var result = evens(LinkedListRange(0, cycles));
@@ -216,10 +212,12 @@ namespace Recursion_Solutions_CSharp {
             Console.WriteLine("Evens (linked list) runs {0} cycles in {1}ms", cycles, ms);
             Console.WriteLine();
 
-            var result_array = evens_array(Enumerable.Range(0,3).ToArray());
+            timer.Restart();
+            var result_array = evens_array(Enumerable.Range(0, cycles).ToArray());
             var ms_array = timer.ElapsedMilliseconds;
-            Console.WriteLine("Evens (array) runs {0} cycles in {1}ms", cycles, ms);
+            Console.WriteLine("Evens (array) runs {0} cycles in {1}ms", cycles, ms_array);
             Console.WriteLine();
+
         }
     }
 }
