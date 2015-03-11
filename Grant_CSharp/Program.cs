@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 
@@ -87,9 +88,39 @@ namespace Recursion_Solutions_CSharp {
             if (list.Count() == 0)
                 return new LinkedList<int>();
             else if (even(Head(list)))
-                return Cons(Head(list), Tail(list));
-            else 
+                return Cons(Head(list), evens(Tail(list)));
+            else
                 return evens(Tail(list));
+        }
+
+        static int[] evens_array(int[] list) {
+             //Console.WriteLine(list.Length);
+            try {
+                if (list.Length == 0)
+                    return new int[0];
+                else if (even(list[0])) {
+
+                    var tail = new int[list.Length - 1];
+                    Array.Copy(list, 1, tail, 0, tail.Length);
+
+                    var newList = new int[list.Length];
+                    var evensTail = evens_array(tail);
+                    Array.Copy(evensTail, 0, newList, 1, newList.Length);
+
+                    newList[0] = list[0];
+                    return newList;
+                }
+                else {
+                    var tail = new int[list.Length - 1];
+                    Array.Copy(list, 1, tail, 0, tail.Length);
+
+                    return evens_array(tail);
+                }
+            }
+            catch (Exception ex) {
+                Console.WriteLine(ex);
+                throw;
+            }
         }
 
         static bool isEven(int n) {
@@ -161,21 +192,34 @@ namespace Recursion_Solutions_CSharp {
 
         static void Main(string[] args) {
 
-            Console.WriteLine("Basic\n");
-            Console.WriteLine("Factorial 5: {0}", factorial(5));
-            Console.WriteLine("Fibonacci 7: {0}", fibonacci(7));
-            Console.WriteLine("Sum [1;2;3;4;5] = {0}", sum(new List<int> {1,2,3,4,5}));
-            Console.WriteLine("Count 1 [1,2,1,3,4,1] = {0}", count(1, new List<int> { 1, 2, 1, 3, 4, 1 }));
-            Console.WriteLine("Evens [1,2,3,4,5,6,7,8] = {0}", evens(LinkedListRange(1,9)).print());
-            Console.WriteLine("99 even? {0} 78 even? {1} 21 odd? {2}", isEven(99), isEven(78), isOdd(21));
+            //Console.WriteLine("Basic\n");
+            //Console.WriteLine("Factorial 5: {0}", factorial(5));
+            //Console.WriteLine("Fibonacci 7: {0}", fibonacci(7));
+            //Console.WriteLine("Sum [1;2;3;4;5] = {0}", sum(new List<int> {1,2,3,4,5}));
+            //Console.WriteLine("Count 1 [1,2,1,3,4,1] = {0}", count(1, new List<int> { 1, 2, 1, 3, 4, 1 }));
+            //Console.WriteLine("Evens [1,2,3,4,5,6,7,8] = {0}", evens(LinkedListRange(1,9)).print());
+            //Console.WriteLine("99 even? {0} 78 even? {1} 21 odd? {2}", isEven(99), isEven(78), isOdd(21));
 
-            Console.WriteLine("\nIntermediate\n");
-            Console.WriteLine("Ackermann 3 10: {0}", ackermann(3,10));
-            Console.WriteLine("treesearch c:temp {0}", treesearch("thefile.txt", @"c:\temp"));
-            Console.WriteLine("Count (quick) 99 [1..10] = {0}", count_quick(99, LinkedListRange(0,10)));
-            Console.WriteLine("Count (tail) 99 [1..10] = {0}", count_tail(99, LinkedListRange(0, 10), 0)); // no TCO
-            Console.WriteLine("Evens (tail) [1..10] = {0}", evens_tail(LinkedListRange(0, 10), new LinkedList<int>()).print());
-            count_continuation(4, LinkedListRange(0, 10), (result => Console.WriteLine("Count (continuation) 4 [1..10] = {0}", result)));
+            //Console.WriteLine("\nIntermediate\n");
+            //Console.WriteLine("Ackermann 3 10: {0}", ackermann(3,10));
+            //Console.WriteLine("treesearch c:temp {0}", treesearch("thefile.txt", @"c:\temp"));
+            //Console.WriteLine("Count (quick) 99 [1..10] = {0}", count_quick(99, LinkedListRange(0,10)));
+            //Console.WriteLine("Count (tail) 99 [1..10] = {0}", count_tail(99, LinkedListRange(0, 10), 0)); // no TCO
+            //Console.WriteLine("Evens (tail) [1..10] = {0}", evens_tail(LinkedListRange(0, 10), new LinkedList<int>()).print());
+            //count_continuation(4, LinkedListRange(0, 10), (result => Console.WriteLine("Count (continuation) 4 [1..10] = {0}", result)));
+
+            int cycles = 4000;
+
+            var timer = Stopwatch.StartNew();
+            var result = evens(LinkedListRange(0, cycles));
+            var ms = timer.ElapsedMilliseconds;
+            Console.WriteLine("Evens (linked list) runs {0} cycles in {1}ms", cycles, ms);
+            Console.WriteLine();
+
+            var result_array = evens_array(Enumerable.Range(0,3).ToArray());
+            var ms_array = timer.ElapsedMilliseconds;
+            Console.WriteLine("Evens (array) runs {0} cycles in {1}ms", cycles, ms);
+            Console.WriteLine();
         }
     }
 }
