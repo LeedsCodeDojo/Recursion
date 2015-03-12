@@ -13,7 +13,7 @@ namespace Recursion_Solutions_CSharp {
             Console.WriteLine("\nBasic Problems\n");
             Console.WriteLine("Factorial 5: {0}", BasicProblems.factorial_conditional(5));
             Console.WriteLine("Fibonacci 7: {0}", BasicProblems.fibonacci(7));
-            Console.WriteLine("Sum [1..5] = {0}", BasicProblems.sum(RecursiveList.FromRange(0,6)));
+            Console.WriteLine("Sum [1..5] = {0}", BasicProblems.sum(RecursiveList.FromRange(0, 6)));
             Console.WriteLine("Count 1 [1,2,1,3,4,1] = {0}", BasicProblems.count(1, RecursiveList.FromArray(new int[] { 1, 2, 1, 3, 4, 1 })));
             Console.Write("Evens [1..8] = "); BasicProblems.evens(RecursiveList.FromRange(1, 9)).Print();
             Console.WriteLine("\n99 even? {0} 21 odd? {1}", BasicProblems.isEven(99), BasicProblems.isOdd(21));
@@ -24,6 +24,19 @@ namespace Recursion_Solutions_CSharp {
             Console.WriteLine("Count (tail) 99 [1..10] = {0}", IntermediateProblems.count_tail(99, RecursiveList.FromRange(0, 10), 0)); // no TCO
             Console.Write("Evens (tail) [1..10] = "); IntermediateProblems.evens_tail(RecursiveList.FromRange(0, 10), RecursiveList.Empty()).Print();
             IntermediateProblems.count_continuation(4, RecursiveList.FromRange(0, 10), (result => Console.WriteLine("\nCount (continuation) 4 [1..10] = {0}", result)));
+            IntermediateProblems.evens_continuation(RecursiveList.FromRange(0, 10), (result => {
+                Console.Write("Evens (continuation) [1..10] = ");
+                result.Print();
+            }));
+
+            Console.WriteLine("\n\nAdvanced Problems\n");
+            AdvancedProblems.fibonacci_continuations(11, result => {
+                Console.WriteLine("Fibonacci (continuations) 11: {0}", result);
+            });
+
+            AdvancedProblems.ackermann_continuations(3, 4, result => {
+                Console.WriteLine("Ackermann (continuations) 3 4: {0}", result);
+            });
         }
     }
 }

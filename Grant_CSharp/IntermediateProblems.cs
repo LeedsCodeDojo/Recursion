@@ -55,5 +55,21 @@ namespace Recursion_Solutions_CSharp {
                 count_continuation(item, list.Tail, (result =>
                     continuation.Invoke(result + (list.Head == item ? 1 : 0))));
         }
+
+        public static void evens_continuation(RecursiveList list, Action<RecursiveList> continuation) {
+            if (list.IsEmpty) {
+                continuation.Invoke(RecursiveList.Empty());
+            }
+            else {
+                evens_continuation(list.Tail, (result => {
+                    var accumulator =
+                        even(list.Head)
+                        ? RecursiveList.Cons(list.Head, result)
+                        : result;
+
+                    continuation.Invoke(accumulator);
+                }));
+            }
+        }
     }
 }
