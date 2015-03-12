@@ -42,8 +42,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BasicProblems.cs" />
+    <Compile Include="IntermediateProblems.cs" />
+    <Compile Include="LinkedListRecursionExtensions.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="CollectionsRecursivePerformanceAnalysis.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
