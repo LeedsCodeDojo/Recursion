@@ -31,28 +31,29 @@ namespace Recursion_Solutions_CSharp {
         }
 
         // This is not tail optimised for some reason.
-        public static int count_tail(int item, LinkedList<int> list, int count) {
-            if (list.Count() == 0)
-                return count;
-            else
-                return count_tail(item, list.Tail(), count + (list.Head() == item ? 1 : 0));
-        }
-
-        public static LinkedList<int> evens_tail(LinkedList<int> list, LinkedList<int> accumulator) {
-            if (list.Count() <= 0)
+        public static int count_tail(int item, RecursiveList list, int accumulator) {
+            if (list.IsEmpty) 
                 return accumulator;
-            else if (even(list.Head()))
-                return evens_tail(list.Tail(), list.Head().Cons(accumulator));
             else
-                return evens_tail(list.Tail(), accumulator);
+                return count_tail(item, list.Tail, accumulator + (list.Head == item ? 1 : 0));
         }
 
-        public static void count_continuation(int item, LinkedList<int> list, Action<int> continuation) {
-            if (list.Count() == 0)
+        public static RecursiveList evens_tail(RecursiveList list, RecursiveList accumulator) {
+
+            if (list.IsEmpty)
+                return accumulator;
+            else if (even(list.Head))
+                return evens_tail(list.Tail, RecursiveList.Cons(list.Head, accumulator));
+            else
+                return evens_tail(list.Tail, accumulator);
+        }
+
+        public static void count_continuation(int item, RecursiveList list, Action<int> continuation) {
+            if (list.IsEmpty)
                 continuation.Invoke(0);
             else
-                count_continuation(item, list.Tail(), (result =>
-                    continuation.Invoke(result + (list.Head() == item ? 1 : 0))));
+                count_continuation(item, list.Tail, (result =>
+                    continuation.Invoke(result + (list.Head == item ? 1 : 0))));
         }
     }
 }

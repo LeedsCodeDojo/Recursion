@@ -29,25 +29,26 @@ namespace Recursion_Solutions_CSharp {
                 : fibonacci(n - 1) + fibonacci(n - 2);
         }
 
-        public static int sum(IEnumerable<int> list) {
-            return list.Count() == 0
+        public static int sum(RecursiveList list) {
+            return list.IsEmpty
                 ? 0
-                : list.ElementAt(0) + sum(list.Skip(1));
+                : list.Head + sum(list.Tail);
         }
 
-        public static int count(int item, IEnumerable<int> list) {
-            return list.Count() == 0
+        public static int count(int item, RecursiveList list) {
+            return list.IsEmpty
                 ? 0
-                : (list.ElementAt(0) == item ? 1 : 0) + count(item, list.Skip(1));
+                : (list.Head == item ? 1 : 0) + count(item, list.Tail);
         }
 
-        public static LinkedList<int> evens(LinkedList<int> list) {
-            if (list.Count() == 0)
-                return new LinkedList<int>();
-            else if (even(list.Head()))
-                return list.Head().Cons(evens(list.Tail()));
+        public static RecursiveList evens(RecursiveList list) {
+
+            if (list.IsEmpty)
+                return RecursiveList.Empty();
+            else if (even(list.Head))
+                return RecursiveList.Cons(list.Head, evens(list.Tail));
             else
-                return evens(list.Tail());
+                return evens(list.Tail);
         }
 
         public static bool isEven(int n) {
