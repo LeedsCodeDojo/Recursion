@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="BasicProblems.cs" />
     <Compile Include="IntermediateProblems.cs" />
+    <Compile Include="ArrayRecursionExtensions.cs" />
     <Compile Include="LinkedListRecursionExtensions.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

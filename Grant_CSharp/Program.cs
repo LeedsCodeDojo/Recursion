@@ -8,7 +8,6 @@ namespace Recursion_Solutions_CSharp {
         static void Main(string[] args) {
 
             Console.WriteLine("Collections Recursion Performance Analysis");
-            CollectionsRecursivePerformanceAnalysis.TestSolutions();
             CollectionsRecursivePerformanceAnalysis.Run();
 
             Console.WriteLine("\nBasic Problems\n");
