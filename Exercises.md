@@ -193,9 +193,9 @@ With C#, I've found two workable solutions.  The best way is to define your own 
         }
     }
 
-Filling it up, printing it and/or comparing it to ither things will be your main challenges, but it is efficient and works well with recursion.
+Filling it up, printing it and/or comparing it to other things will be your main challenges, but it is efficient and works well with recursion.
 
-The best internal structure I've found is the Array.  Not because it is easy to use with recursion, but just because it's fairly efficient - although still around 10x slower than using the RecurtiveList.  I creadted some extension methods to make it easier:
+The best internal structure I've found is the Array.  Not because it is easy to use with recursion, but just because it's fairly efficient - although still around 10x slower than using the RecursiveList.  I created some extension methods to make it easier to work with:
 
     public static class ArrayRecursionExtensions {
         // Head gets the first item
