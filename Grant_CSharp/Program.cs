@@ -7,6 +7,10 @@ namespace Recursion_Solutions_CSharp {
 
         static void Main(string[] args) {
 
+            // Seems like to get optimised tail calls in C# you need:
+            // - compilation to 64-bit
+            // - optimisations turned on
+
             //Console.WriteLine("Collections Recursion Performance Analysis");
             //CollectionsRecursivePerformanceAnalysis.Run();
 
@@ -21,11 +25,16 @@ namespace Recursion_Solutions_CSharp {
             Console.WriteLine("\nIntermediate Problems\n");
             Console.WriteLine("Ackermann 3 10: {0}", IntermediateProblems.ackermann(3, 10));
             Console.WriteLine("treesearch c:temp {0}", IntermediateProblems.treesearch("thefile.txt", @"c:\temp"));
-            Console.WriteLine("Count (tail) 99 [1..10] = {0}", IntermediateProblems.count_tail(99, RecursiveList.FromRange(0, 10), 0)); // no TCO
+            Console.WriteLine("Count (tail) 99 [1..100000] = {0}", IntermediateProblems.count_tail(99, RecursiveList.FromRange(0, 100000), 0));
             Console.Write("Evens (tail) [1..10] = "); IntermediateProblems.evens_tail(RecursiveList.FromRange(0, 10), RecursiveList.Empty()).Print();
+            Console.Write("\nTrying evens (tail) with 100,000 items..");
+            IntermediateProblems.evens_tail(RecursiveList.FromRange(0, 100000), RecursiveList.Empty());
+            Console.WriteLine("Success");
+
+            // Continuations with long lists still get stack overflow
             IntermediateProblems.count_continuation(4, RecursiveList.FromRange(0, 10), (result => Console.WriteLine("\nCount (continuation) 4 [1..10] = {0}", result)));
-            IntermediateProblems.evens_continuation(RecursiveList.FromRange(0, 10), (result => {
-                Console.Write("Evens (continuation) [1..10] = ");
+            IntermediateProblems.evens_continuation(RecursiveList.FromRange(0, 100000), (result => {
+                Console.Write("Evens (continuation) [1..100000] = ");
                 result.Print();
             }));
 
