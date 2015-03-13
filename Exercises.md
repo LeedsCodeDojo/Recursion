@@ -98,10 +98,10 @@ If that all seems like too much work in your language, just move along.  And lea
 Try counting the items in a list again, using your previous solution (if you wrote one), but in a list containing 100,000 items.
 
 A couple of things might happen:
-1. It will be extremely slow.  This is especially likely if you're using something like C# which doesn't have a recursive data type.  In that situation, try writing it with a LinkedList, which should make getting at the 'first' element and the 'remaining' elements much quicker - see Appendix A for details.
+1. It will be extremely slow.  This is especially likely if you're using something like C# which doesn't have a recursive data type.  See Appendix B for tips on working with lists recursively in languages like C#.
 2. You might get a Stack Overflow.  (Some languages, in particula dynamic ones, don't seem to have this problem regardless).
 
-Write the function again, this time with a tail call (e.g. using an accumulator to hold the count).  Assuming your language supports TCO, you should be able to count on the list with 100,000 items.
+Write the function again, this time with a tail call (e.g. using an accumulator to hold the count).  Assuming your language supports TCO, you should be able to count on the list with 100,000 items.  (If using C#, see Appendix A for details on making sure TCO is enabled).
 
 ### 2.5 Tail Call Filter
 
@@ -141,11 +141,90 @@ Go and solve the [Towers of Hannoi puzzle](https://www.learneroo.com/modules/71/
 
 Output all permutations of a passed string (or list of characters).
 
-### Appendix A - Tips for working with lists in C# and similar languages.
+### Appendix A - Optimising Tail Calls in C#
+
+While the .Net VM and C# compiler are able to optimise tail calls (to avoid Stack Overflow), it may or may not happen.  To get your tail calls optimised, make sure you:
+* Compile for 64-bit (in project build settings) - 32-bit applications don't get TCO
+* Turn on 'Optimize code' (in project build settings)
+* Use a more recent version (apparently the optimisation is more likely on .Net 4 and above)
+
+### Appendix B - Tips for working with lists in C# and similar languages.
 
 If your language doesn't have a recursive list structure, doing recursion with collections can be a pain.  Some of the problems with the built-in list structures are:
 * they don't always make it easy to get the 'head' and 'tail' of a list
-* Building up a list by appending items onto it can be difficult
+* Building up a list by appending items onto the front can be difficult
 * Both of the above can be very inefficient
 
-With C#, I've been using the LinkedList, but that doesn't solve all of the problems above so I'll leave it to you to try and work out the best way!
+With C#, I've found two workable solutions.  The best way is to define your own recursive data type, which might look a bit like this:
+
+    public class RecursiveList {
+
+        private readonly int? _head;
+        private readonly RecursiveList _tail;
+
+        private RecursiveList(int? head, RecursiveList tail) {
+            _head = head;
+            _tail = tail;
+        }
+
+        public int Head { get {
+            if (this.IsEmpty)
+                throw new InvalidOperationException("Cannot read Head of an empty list");
+
+            return _head.Value; 
+        } }
+
+        public RecursiveList Tail { get { return _tail; } }
+        public bool IsEmpty { get { return !_head.HasValue; } }
+
+        public static RecursiveList Cons(int head, RecursiveList tail) {
+            return new RecursiveList(head, tail);
+        }
+
+        public static RecursiveList Empty() {
+            return new RecursiveList(null, null);
+        }
+
+        public static RecursiveList FromRange(int from, int to) {
+            if (from >= to) 
+                return RecursiveList.Empty();
+            else
+                return new RecursiveList(from, RecursiveList.FromRange(++from, to));
+        }
+    }
+
+Filling it up, printing it and/or comparing it to ither things will be your main challenges, but it is efficient and works well with recursion.
+
+The best internal structure I've found is the Array.  Not because it is easy to use with recursion, but just because it's fairly efficient - although still around 10x slower than using the RecurtiveList.  I creadted some extension methods to make it easier:
+
+    public static class ArrayRecursionExtensions {
+        // Head gets the first item
+        public static int Head(this int[] list) {
+            return list[0];
+        }
+
+        // Tail gets the whole list excliding the first item.
+        public static int[] Tail(this int[] list) {
+            var tail = new int[list.Length - 1];
+            Array.Copy(list, 1, tail, 0, tail.Length);
+            return tail;
+        }
+
+        // Attaches the item onto the beginning of the list
+        public static int[] Cons(this int head, int[] tail) {
+            var newList = new int[tail.Length + 1];
+            Array.Copy(tail, 0, newList, 1, tail.Length);
+            newList[0] = head;
+            return newList;
+        }
+
+        // Creates an array from a range of integers, one element per number
+        public static int[] FromRange(int from, int to) {
+            return Enumerable.Range(from, to).ToArray();
+        }
+
+        // Prints each item of a linked list
+        public static string print(this int[] list) {
+            return list.Aggregate("", (output, item) => output + "," + item);
+        }
+    }
