@@ -111,9 +111,11 @@ Two functions which call each other:
 
 Each time the function is called recursively it uses up a frame on the stack.  There are a limited number of frames available (often around 64,000) and when they run out you get a Stack Overflow:
 
-    let rec sum_recursive list =
-      if (empty list) then 0
-      else list.[0] + sum_recursive (tail list)
+    int sum(List<int> list) {
+        return list.Count == 0
+            ? 0
+            : list[0] + sum(list.Skip(1));
+    }
 
     > sum_recursive [1..60000];;
     val it : int = 1800030000
@@ -123,18 +125,21 @@ Each time the function is called recursively it uses up a frame on the stack.  T
     
 If you write the function in such a way that it does not need to be kept on the stack, by doing a Tail Call, some compilers recognise this and optimise the recursive call so only one stack frame is used:
 
-    let rec sum_tail list accumulator =
-      if (empty list) then accumulator
-      else sum_tail (tail list) (accumulator + list.[0])
-      
+    int sum_tail(RecursiveList list, int accumulator) {
+        if (list.Count == 0) 
+            return accumulator;
+        else
+            return sum_tail(list.Skip(1), accumulator + list[0]);
+    }
+
     > sum_tail [1..65000] 0;;
     val it : int = 2112532500
 
 The most common way to do this is to pass an accumulator to the function, so when the Base Case is reached it has everything it needs, and doesn't need to work back up the stack.
 
-### Note regarding TCO in C#
+### Note regarding TCO in C#  
 
-While the CLR supports tail calls (unlike for example the JVM), C# may or may not optimise tail calls.  To try and make it happen:
+While the CLR supports tail calls (unlike for example the JVM), the C# compiler may or may not optimise them.  To try and make it happen:
 * Compile for 64 bit
 * Turn on optimisations
 
