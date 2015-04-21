@@ -120,7 +120,7 @@ While the .Net VM and C# compiler are able to optimise tail calls (to avoid Stac
 * Turn on 'Optimize code' (in project build settings)
 * Use a more recent version (apparently the optimisation is more likely on .Net 4 and above)
 
-### Appendix B - Tips for working with lists in C#.
+### Appendix B - Recursive lists in C#.
 
 If your language doesn't have a recursive list structure, doing recursion with collections can be a pain.  Some of the problems with the built-in list structures are:
 * they don't always make it easy to get the 'head' and 'tail' of a list
