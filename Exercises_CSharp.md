@@ -113,29 +113,21 @@ Implement either the 'Directory search' or 'Tree Seach' again, this time with co
 
 Ackermann, with continuations.  Try calling it with 3 and 12 to see if it's worked.
 
-### 3.4 Towers of Hannoi
-
-Go and solve the [Towers of Hannoi puzzle](https://www.learneroo.com/modules/71/nodes/402) using recursion.
-
-### 3.5 Permutations
-
-Output all permutations of a passed string (or list of characters).
-
-### Appendix A - Optimising Tail Calls in C#
+### Appendix A - Optimising Tail Calls in C# 
 
 While the .Net VM and C# compiler are able to optimise tail calls (to avoid Stack Overflow), it may or may not happen.  To get your tail calls optimised, make sure you:
 * Compile for 64-bit (in project build settings) - 32-bit applications don't get TCO
 * Turn on 'Optimize code' (in project build settings)
 * Use a more recent version (apparently the optimisation is more likely on .Net 4 and above)
 
-### Appendix B - Tips for working with lists in C# and similar languages.
+### Appendix B - Tips for working with lists in C#.
 
 If your language doesn't have a recursive list structure, doing recursion with collections can be a pain.  Some of the problems with the built-in list structures are:
 * they don't always make it easy to get the 'head' and 'tail' of a list
 * Building up a list by appending items onto the front can be difficult
 * Both of the above can be very inefficient
 
-With C#, I've found two workable solutions.  The best way is to define your own recursive data type, which might look a bit like this:
+With C#, you can make your own recursive type to solve these problems:
 
     public class RecursiveList {
 
@@ -173,38 +165,5 @@ With C#, I've found two workable solutions.  The best way is to define your own 
         }
     }
 
-Filling it up, printing it and/or comparing it to other things will be your main challenges, but it is efficient and works well with recursion.
+Filling it up, printing it and/or comparing it to other things will be your main challenges, but it is efficient and works well with recursion.  There is a copy of something similar in TFS: $/Development Repository/Code Dojos/Recursion/RecursiveList.cs
 
-The best internal structure I've found is the Array.  Not because it is easy to use with recursion, but just because it's fairly efficient - although still around 10x slower than using the RecursiveList.  I created some extension methods to make it easier to work with:
-
-    public static class ArrayRecursionExtensions {
-        // Head gets the first item
-        public static int Head(this int[] list) {
-            return list[0];
-        }
-
-        // Tail gets the whole list excliding the first item.
-        public static int[] Tail(this int[] list) {
-            var tail = new int[list.Length - 1];
-            Array.Copy(list, 1, tail, 0, tail.Length);
-            return tail;
-        }
-
-        // Attaches the item onto the beginning of the list
-        public static int[] Cons(this int head, int[] tail) {
-            var newList = new int[tail.Length + 1];
-            Array.Copy(tail, 0, newList, 1, tail.Length);
-            newList[0] = head;
-            return newList;
-        }
-
-        // Creates an array from a range of integers, one element per number
-        public static int[] FromRange(int from, int to) {
-            return Enumerable.Range(from, to).ToArray();
-        }
-
-        // Prints each item of a linked list
-        public static string print(this int[] list) {
-            return list.Aggregate("", (output, item) => output + "," + item);
-        }
-    }
