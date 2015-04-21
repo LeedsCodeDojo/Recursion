@@ -45,7 +45,7 @@ Filter a list of numbers to return only the even ones.
 
 The list [1, 2, 3, 4, 5, 6, 7, 8] when filtered should give [2, 4, 6, 8].
 
-Note: This is much easier in languages which have a recursive list structures.  In other languages, such as C#, it's a bit of a pain.  You could try using a Linked List - see Appendix A for an example. Or just move on to the next exercise..
+Note: This is much easier in languages which have a recursive list structures.  In languages which don't, such as C#, it's a bit of a pain.  You could use the RecursiveList which can be found in the repository. Or just move on to the next exercise..
 
 ### 1.6 IsEven
 
