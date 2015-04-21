@@ -153,7 +153,8 @@ One fairly advanced programming technique involves passing one or more functions
 
 So you can call it passing, for example, a lambda:
 
-    sum_continuation(new List<int>{1,2,3,4,5}, (result => Console.WriteLine("Sum = {0}", result)));
+    sum_continuation(new List<int>{1,2,3,4,5}, (result => 
+        Console.WriteLine("Sum = {0}", result)));
 
 There is in fact an entire style of programming called 'Continuation Passing Style' (CPS) in which everything is written in this way, which was surely thought up by a sadist.
 
