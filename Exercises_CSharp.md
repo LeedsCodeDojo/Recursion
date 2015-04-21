@@ -23,7 +23,7 @@ Calclate the Nth Fibonacci number:
 
 with the first two numbers in the sequence being
 
-![fibonacci](http://upload.wikimedia.org/math/4/3/d/43d30dc03ffec0a82d4471f1009ef519.png)
+![fibonacci](http://upload.wikimedia.org/math/a/9/2/a92c5f0981136ba333124cdfe6d3c3ce.png)
 
 The start of the sequence goes:
 
