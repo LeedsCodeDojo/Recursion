@@ -7,40 +7,34 @@ Some details about recursive functions, with examples mainly in C#.
 
 Recursion is "The repeated application of a recursive procedure or definition".  In simple, practical terms it's a function which calls itself:
 
-    let rec factorial n =
-      if n = 0 then 1
-      else n * factorial (n-1)
-
-## Structure of a Recursive Function
-
-Function definition:
-
-    let rec factorial n =
-
-All common languages support recursive function calls.  In some, such as F#, you have to specify it explicitly.
-
-Base Case:
-
-      if n = 0 then 1
-
-Also known as the Terminal Case.  This is when the recursion stops.
-
-Recursive Case:
-
-      else n * factorial (n-1)
-
-Where the recursion happens.  The function should be called with parameter(s) which move it towards the Base Case.
-
-## Examples in Other Languages
-
-### C# (using if)
-
-    static int factorial(int n) {
+    int factorial(int n) {
         if( n == 0 )
             return 1;
         else
             return n * factorial(n - 1);
     }
+
+## Structure of a Recursive Function
+
+Function definition:
+
+    int factorial(int n)
+
+Base Case:
+
+    if( n == 0 )
+        return 1;
+
+Also known as the Terminal Case.  This is when the recursion stops.
+
+Recursive Case:
+
+    else
+        return n * factorial(n - 1);
+
+Where the recursion happens.  The function should be called with parameter(s) which move it towards the Base Case.
+
+## Examples in Other Languages
         
 ### C# (using conditional operator)
 
@@ -49,6 +43,12 @@ Where the recursion happens.  The function should be called with parameter(s) wh
             ? 1
             : n * factorial(n - 1);
     }
+
+### F# (using ifs)
+
+    let rec factorial n =
+      if n = 0 then 1
+      else n * factorial (n-1)
     
 ### F# (using pattern matching)
 
@@ -69,18 +69,25 @@ Where the recursion happens.  The function should be called with parameter(s) wh
 
 The function is called once:
 
-    let rec factorial n =
-      if n = 0 then 1
-      else n * factorial (n-1)
+    int factorial(int n) {
+        if( n == 0 )
+            return 1;
+        else
+            return n * factorial(n - 1);
+    }
 
 ### Multiple Recursion
 
 The function is called multiple times:
 
-    let rec lucas n =
-      if n = 0 then 2
-      elif n = 1 then 1
-      else lucas (n-1) + lucas (n-2)
+    int lucas(int n) {
+        if( n == 0 )
+            return 2;
+        if( n == 1 )
+            return 1;
+        else
+            return lucas(n - 1) + lucas(n - 2);
+    }
 
 ### Mutual Recursion
 
