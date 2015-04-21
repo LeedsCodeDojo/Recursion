@@ -73,27 +73,7 @@ When called with the numbers 3 and 10, it should return 8189.  Enter much higher
 
 Write a function which searches all files and folders of a provided path for a file with a particular name.
 
-If your language makes this difficult, move onto the next exercise, which is similar.  And stop using Haskell.
-
-### 2.3 Tree Search
-
-Write a function which searches a tree-like data structure for a given item.
-
-If your language supports a recursive list structure, this will do, as the head and tail can be considered the two branches of the tree, e.g. Scheme:
-
-    (treesearch 9 '(((9)) 2 (3) (4 5 (6 (7)) 8)))
-
-Alternatively you could write yourself some kind of tree structure and use that:
-
-    type Tree =
-    | Branch of string * Tree list
-    | Leaf of string
-    
-    let tree = Branch ("a", [Branch ("b", [Leaf "c"; Leaf "d"]); Branch ("e", [Leaf "f"; Leaf "g"])])
-
-If that all seems like too much work in your language, just move along.  And learn yourself a decent language!
-
-### 2.4 Tail Call List Count
+### 2.3 Tail Call List Count
 
 Try counting the items in a list again, using your previous solution (if you wrote one), but in a list containing 100,000 items.
 
@@ -103,17 +83,17 @@ A couple of things might happen:
 
 Write the function again, this time with a tail call (e.g. using an accumulator to hold the count).  Assuming your language supports TCO, you should be able to count on the list with 100,000 items.  (If using C#, see Appendix A for details on making sure TCO is enabled).
 
-### 2.5 Tail Call Filter
+### 2.4 Tail Call Filter
 
 Try filtering a list with 100,000 items.  Again, this might be slow and you might get a Stack Overflow.
 
 Write a function to filter the list of numbers to get the evens, this time with a tail call.
 
-### 2.6 Continuations List Count
+### 2.5 Continuations List Count
 
 Count the items in a list again, this time using continuations.
 
-### 2.7 Continuations Filter
+### 2.6 Continuations Filter
 
 Filter a list of numbers again to get the evens, with a continuation.
 
