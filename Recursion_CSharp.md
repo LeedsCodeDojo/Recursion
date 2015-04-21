@@ -56,12 +56,6 @@ Where the recursion happens.  The function should be called with parameter(s) wh
       | 0 -> 1
       | n -> n * factorial (n-1)
       
-### Scheme
-
-    (define (factorial n)
-      (cond 
-        ((eq? n 0) 1)
-        (else (* n (factorial (- n 1))))))
 
 ## Types of Recursion
 
@@ -125,7 +119,7 @@ Each time the function is called recursively it uses up a frame on the stack.  T
     
 If you write the function in such a way that it does not need to be kept on the stack, by doing a Tail Call, some compilers recognise this and optimise the recursive call so only one stack frame is used:
 
-    int sum_tail(RecursiveList list, int accumulator) {
+    int sum_tail(List<int> list, int accumulator) {
         if (list.Count == 0) 
             return accumulator;
         else
@@ -149,39 +143,18 @@ F# always optimises tail calls.  Other languages vary.
 
 One fairly advanced programming technique involves passing one or more functions to the function doing the work so that instead of returning a value, the function calls one of the passed functions with the result:
 
-    let rec sum_continuation list collector =
-      if (empty list) then collector 0
-      else 
-        sum_continuation 
-          (tail list) 
-          (fun sum -> collector (sum + list.[0]))
-    
-    sum_continuations [1..5] (fun sum ->
-      printfn "Answer: %i" sum)
+    void sum_continuation(List<int> list, Action<int> continuation) {
+        if (list.Count == 0)
+            continuation.Invoke(0);
+        else
+            sum_continuation(list.Skip(1), (result =>
+                continuation.Invoke(result + list[0])));
+    }
+
+So you can call it passing, for example, a lambda:
+
+    sum_continuation(new List<int>{1,2,3,4,5}, (result => Console.WriteLine("Sum = {0}", result)));
 
 There is in fact an entire style of programming called 'Continuation Passing Style' (CPS) in which everything is written in this way, which was surely thought up by a sadist.
 
-This is important in relation to recursion because sometimes a recursive call cannot be made Tail Recursve using the normal mechanism, such as Multiple Recursive calls.  In these cases, continuations can be used to make the function Tail Recursive.  It can get rather complicated.
-
-This continuation-based Scheme function finds the maximum depth of a tree, which can't be optimised in the normal way as the function has to be called recursively on each branch of the tree:
-
-    (define maxdepth*&co
-      (lambda (l col)
-        (cond
-          ((null? l) (col 1))
-          ((atom? (car l)) 
-            (maxdepth*&co (cdr l)
-                          (lambda (n) (col n))))
-          (else 
-            (maxdepth*&co (car l)
-                          (lambda (ncar) 
-                            (maxdepth*&co (cdr l) 
-                                          (lambda (ncdr) 
-                                            (col 
-                                              (cond
-                                                ((> (add1 ncar) ncdr) (add1 ncar))
-                                                (else ncdr)))))))))))
-
-Those brave enough to give it a read might notice that the second time 'maxdepth&co' is called, it's passed a lambda which gets the result from one branch of the tree, which in turn calls the function *again*, passing a *second* lambda which gets the results from the other branch.
-
-The rest of you will just have to take my word for it. ;-)
+This is important in relation to recursion because sometimes a recursive call cannot be made Tail Recursve using the normal mechanism, such as Multiple Recursive calls (e.g. recursing over a tree structure).  In these cases, continuations can be used to make the function Tail Recursive.  It can get rather complicated.  But I encourage you to give it a try!
