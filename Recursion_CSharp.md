@@ -93,14 +93,19 @@ The function is called multiple times:
 
 Two functions which call each other:
 
-    let rec even number =  
-      if number = 0 then true
-      else odd (number-1)
-    and odd number = 
-      if number = 0 then false
-      else even (number-1)
-
-(In F#, because of the single-pass compilation, you need to specify mutually recursive functions together with 'and'). 
+    int even(int n) {
+        if( n == 0 )
+            return true;
+        else
+            return odd(n - 1);
+    }
+    
+    int odd(int n) {
+        if( n == 0 )
+            return false;
+        else
+            return even(n - 1);
+    }
 
 ## Tail Call Optimisation
 
@@ -127,26 +132,13 @@ If you write the function in such a way that it does not need to be kept on the 
 
 The most common way to do this is to pass an accumulator to the function, so when the Base Case is reached it has everything it needs, and doesn't need to work back up the stack.
 
-Some languages which support Tail Call Optimisation:
-* F#
-* Scheme
-* Erlang
-* C# (when compiled for 64 bit)
-* Haskell (optionally)
-* Scala (for self-calls)
-* Some Ruby implementations
+### Note regarding TCO in C#
 
-Some languages which don't:
-* Python
-* C# (compiled for 32 bit)
-* Java
-* Clojure
-* Javascript
-* Most Ruby implementations
+While the CLR supports tail calls (unlike for example the JVM), C# may or may not optimise tail calls.  To try and make it happen:
+* Compile for 64 bit
+* Turn on optimisations
 
-(Note: For VM-based languaged that run on things like the JVM or CLR, the compiler can optimise some tail calls, but for full TCO it has to be supported at the VM level.  The CLR supports this while the JVM does not).
-
-(Another Note: Some languages which don't support TCO use something called Trampolining instead, which does something crazy with lambdas.  See The Internet for details.)
+F# always optimises tail calls.  Other languages vary.
 
 ## Continuations
 
